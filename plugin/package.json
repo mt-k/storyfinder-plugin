@@ -1,0 +1,63 @@
+{
+  "title": "Storyfinder",
+  "name": "storyfinder",
+  "id": "storyfinder@lt.informatik.tu-darmstadt.de",
+  "version": "0.0.2",
+  "description": "Using graphs to improve the understanding of text on websites",
+  "main": "index.js",
+  "author": "Manuel Kaufmann",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "Apache",
+  "preferences": [
+    {
+      "name": "server",
+      "title": "Server URL",
+      "description": "URL of the storyfinder server",
+      "type": "string",
+      "value": "https://storyfinder.kisad.de"
+    },
+    {
+      "name": "enabled",
+      "title": "Enable Storyfinder",
+      "description": "Enable or disable storyfinder",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "showSidebar",
+      "title": "Show sidebar",
+      "description": "Show the Storyfinder sidebar",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "username",
+      "title": "Username",
+      "description": "Your storyfinder username",
+      "type": "string",
+      "value": "",
+      "hidden": true
+    },
+    {
+      "name": "password",
+      "title": "Password",
+      "description": "Your storyfinder password",
+      "type": "string",
+      "value": "",
+      "hidden": true
+    },
+    {
+      "name": "userid",
+      "title": "User-ID",
+      "type": "integer",
+      "value": 0,
+      "hidden": true
+    }
+  ],
+  "dependencies": {
+    "async": "^2.0.1",
+    "readability": "^0.1.0"
+  }
+}
