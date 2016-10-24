@@ -10,7 +10,7 @@ module.exports = function(grunt) {
           optimization: 2
         },
         files: {
-          "../plugin2/data/contentstyle.css": "less/storyfinder.less" // destination file and source file
+          "../plugin/data/contentstyle.css": "less/storyfinder.less" // destination file and source file
         }
       }
     },
