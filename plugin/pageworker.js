@@ -27,7 +27,10 @@ module.exports = function(prefs, sidebar){
 			contentType: 'application/json',
 			content: JSON.stringify(data),
 			onComplete: function (response) {
-				if(response.status != 200){
+				if(response.status == 401){
+					sidebar.showLogin();
+					callback(null, null);
+				}else if(response.status != 200){
 					console.log('Error', response.statusText, response.text);
 					callback(new Error('Unable to save data'));
 				}else{
@@ -73,6 +76,11 @@ module.exports = function(prefs, sidebar){
 					console.log(err, response);
 					if(err){
 						next(err);
+						return;
+					}
+					
+					if(_.isNull(response)){
+						next();
 						return;
 					}
 					

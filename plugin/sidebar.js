@@ -71,13 +71,13 @@ module.exports = function(prefs){
 	
 	function initializeSidebar(worker){
 		var server = url(prefs['server']);
-		worker.port.emit("load", {url: prefs["server"]});
+		//worker.port.emit("load", {url: prefs["server"]});
 		
-		/*if(prefs['username'] == ''){
-			worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/register'});
+		if(prefs['username'] == ''){
+			worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/login'});
 		}else{
-			worker.port.emit("load", {url: prefs["server"], username: prefs["username"], password: prefs["password"]});
-		}*/
+			worker.port.emit("load", {url: prefs["server"]});
+		}
 	}
 	
 	function storeCredentials(username, password){
@@ -95,6 +95,12 @@ module.exports = function(prefs){
 	}
 	
 	this.emit = emit;
+	
+	function showLogin(){
+		worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/login'});
+	}
+	
+	this.showLogin = showLogin;
 		
 	initialize();
 	
