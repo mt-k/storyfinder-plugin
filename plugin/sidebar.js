@@ -44,10 +44,13 @@ module.exports = function(prefs){
 					switch(data.action){
 						case 'userRegistered':
 							storeCredentials(data.username, data.password);
-							//worker.port.emit("initialize", prefs["server"].replace(/\/$/,'') + '/');
 						break;
 						case 'parseSite':
 							pageworker.parseSite(data.url);
+						break;
+						case 'newEntity':
+							console.log('Received new entity');
+							pageworker.addToHighlighting(data.data);
 						break;
 						default:
 							console.log('Received unknown message from iframe', data);
@@ -71,12 +74,11 @@ module.exports = function(prefs){
 	
 	function initializeSidebar(worker){
 		var server = url(prefs['server']);
-		//worker.port.emit("load", {url: prefs["server"]});
-		
+
 		if(prefs['username'] == ''){
-			worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/login'});
+			worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/login', id: tabs.activeTab.id});
 		}else{
-			worker.port.emit("load", {url: prefs["server"]});
+			worker.port.emit("load", {url: prefs["server"], id: tabs.activeTab.id});
 		}
 	}
 	
@@ -94,21 +96,25 @@ module.exports = function(prefs){
 		});
 	}
 	
-	this.emit = emit;
-	
-	function showLogin(){
-		worker.port.emit("load", {url: prefs["server"].replace(/\/$/,'') + '/login'});
+	function showGraphForTab(id){
+		workers.forEach(function(worker){
+			if(typeof worker != 'undefined'){
+				worker.port.emit('activateTab', {id: id});
+			}
+		});
 	}
 	
-	this.showLogin = showLogin;
+	this.emit = emit;
 		
 	initialize();
 	
 	tabs.on('activate', function () {
 		if(tabs.activeTab.url.replace(/\/$/g,'') == prefs["server"].replace(/\/$/g,''))
 			sidebar.hide();
-		else if(prefs['showSidebar'])
+		else if(prefs['showSidebar']){
 			sidebar.show();
+			showGraphForTab(tabs.activeTab.id);
+		}
 	});
 	
 	tabs.on('open', function (tab) {	

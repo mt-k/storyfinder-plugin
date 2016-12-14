@@ -2,7 +2,7 @@
   "title": "Storyfinder",
   "name": "storyfinder",
   "id": "storyfinder@lt.informatik.tu-darmstadt.de",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Using graphs to improve the understanding of text on websites",
   "main": "index.js",
   "author": "Manuel Kaufmann",

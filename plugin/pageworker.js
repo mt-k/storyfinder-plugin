@@ -79,11 +79,6 @@ module.exports = function(prefs, sidebar){
 						return;
 					}
 					
-					if(_.isNull(response)){
-						next();
-						return;
-					}
-					
 					bIsRelevant = response.is_relevant;
 					bIsNew = response.is_new;			
 										
@@ -179,6 +174,16 @@ module.exports = function(prefs, sidebar){
 	}
 	
 	this.parseSite = parseSite;
+	
+	function addToHighlighting(entities){
+		workers.forEach(function(worker){
+			if(typeof worker != 'undefined'){
+				worker.port.emit('addEntities', entities);
+			}
+		});
+	}
+	
+	this.addToHighlighting = addToHighlighting;
 	
 	/*Attach the content script*/
 	pageMod.PageMod({

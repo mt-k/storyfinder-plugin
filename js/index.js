@@ -9,6 +9,9 @@ function Storyfinder(){
 	var cssNamespace = 'de-tu-darmstadt-lt-storyfinder'
 		, article = null
 		, articleNodes = []
+		, nodeToOpen = null
+		, timeoutForOpening = null
+		, openDelay = 450
 		;
 		
 	/*
@@ -33,6 +36,11 @@ function Storyfinder(){
 			
 			self.port.on('setEntities', function(data){
 				setEntities(data.Site.Entities);
+				activateHighlighting();
+			});
+			
+			self.port.on('addEntities', function(data){
+				setEntities(data.nodes);
 				activateHighlighting();
 			});
 			
@@ -196,7 +204,7 @@ function Storyfinder(){
 			});
 		});
 	}
-	
+		
 	function activateHighlighting(){
 		articleNodes.forEach(articleNode => {
 			var delegate = new Delegate(articleNode.el);
@@ -209,8 +217,40 @@ function Storyfinder(){
 			delegate.on('mouseout', 'sf-entity', function(event){	
 				var nodeId = this.getAttribute('data-entity-id');
 				setHighlight(nodeId, false);
+				console.log('clear timeout');
+				if(timeoutForOpening != null)
+					clearTimeout(timeoutForOpening);
+			});
+			
+			delegate.on('mousedown', 'sf-entity', function(event){	
+				var nodeId = this.getAttribute('data-entity-id');
+				console.log('mousedown');
+				
+				if(timeoutForOpening != null)
+					clearTimeout(timeoutForOpening);
+					
+				nodeToOpen = nodeId;
+				console.log('Setting timeout');
+				timeoutForOpening = setTimeout(openNode, 150);
+				console.log('Timeout set');
+			});
+			
+			delegate.on('mouseup', 'sf-entity', function(event){
+				console.log('clear timeout');
+				if(timeoutForOpening != null)
+					clearTimeout(timeoutForOpening);
 			});
 		});
+	}
+	
+	function openNode(){
+		if(nodeToOpen != null){
+			console.log('Opening ' + nodeToOpen);
+			self.port.emit('emit-sidebar-event', {
+				event: 'open',
+				data: nodeToOpen
+			});
+		}
 	}
 	
 	function setHighlight(id, status){		
