@@ -27,6 +27,13 @@ $ npm install
 $ grunt less
 ```
 
+## Install plugin dependencies
+
+```
+cd /plugin
+npm install
+```
+
 ## Bundle the plugin
 
 ```
