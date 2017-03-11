@@ -15,5 +15,11 @@
     "html5": "^1.0.5",
     "lodash": "^4.15.0",
     "readability": "^0.1.0"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "handlebars": "^4.0.6",
+    "hbsfy": "^2.7.0",
+    "readability-node": "^0.1.0"
   }
 }
